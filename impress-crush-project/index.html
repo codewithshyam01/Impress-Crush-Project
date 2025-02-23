@@ -1,0 +1,768 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Our Love Story ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, 
+                #ff86b6 0%, 
+                #ffa7d1 25%,
+                #ffc8e6 50%,
+                #ffdbf5 75%,
+                #fff0fa 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            animation: backgroundShift 15s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .instructions {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 1000;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .instructions h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #ff8ec3, #d4a5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+
+        .instructions p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: #ff6b6b;
+        }
+
+        .card {
+            position: absolute;
+            width: 200px;
+            height: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: move;
+            transform-origin: center center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            z-index: 1;
+        }
+
+        .card:hover {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3);
+            z-index: 100;
+        }
+
+        .card.dragging {
+            opacity: 0.9;
+            transform: scale(1.12) rotate(8deg);
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.5);
+            z-index: 1000;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card .text {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            white-space: nowrap;
+            padding: 10px 20px;
+            background: rgba(255,192,203,0.6);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .card:hover .text {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .special-button {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            color: #ff6b6b;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .special-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateX(-50%) scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        .message-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 2000;
+            animation: modalAppear 0.5s ease-out;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -30%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .message-modal h2 {
+            color: #ff6b6b;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .message-modal p {
+            color: #ff8eb3;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .close-button {
+            padding: 10px 25px;
+            background: rgba(255, 107, 107, 0.8);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.05);
+        }
+
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatHeart 10s linear infinite;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 5px rgba(255,105,180,0.3));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-15px) translateX(-50%); }
+        }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0.8; }
+            100% { transform: translateY(-100px) rotate(360deg) scale(1.5); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .instructions h1 {
+                font-size: 1.5rem;
+            }
+
+            .instructions p {
+                font-size: 1rem;
+            }
+
+            .card {
+                width: 150px;
+                height: 210px;
+            }
+
+            .card .text {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
+            .special-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .message-modal {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .message-modal h2 {
+                font-size: 1.5rem;
+            }
+
+            .message-modal p {
+                font-size: 1rem;
+            }
+
+            .close-button {
+                padding: 8px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .instructions h1 {
+                font-size: 1.2rem;
+            }
+
+            .instructions p {
+                font-size: 0.9rem;
+            }
+
+            .card {
+                width: 120px;
+                height: 170px;
+            }
+
+            .card .text {
+                font-size: 0.8em;
+                padding: 6px 12px;
+            }
+
+            .special-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .message-modal {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .message-modal h2 {
+                font-size: 1.2rem;
+            }
+
+            .message-modal p {
+                font-size: 0.9rem;
+            }
+
+            .close-button {
+                padding: 6px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        <h1>✨ Our Magical Love Story ✨</h1>
+        <p>Arrange these precious memories with love...</p>
+    </div>
+
+    <div class="hearts-container" id="hearts-container"></div>
+    
+    <button class="special-button" onclick="showMessage()">💝 Why You're Special 💝</button>
+
+    <div class="message-modal" id="messageModal">
+        <h2>✨ My Dearest Love ✨</h2>
+        <p>You're the sparkle in my eye, the flutter in my heart, and the smile on my face. Every moment with you feels like magic, and every day I fall more deeply in love with you. You make my world brighter just by being in it. 💖</p>
+        <button class="close-button" onclick="hideMessage()">Close with Love 💕</button>
+    </div>
+
+    <script>
+        class DraggableCards {
+            constructor() {
+                this.cards = [];
+                this.activeCard = null;
+                this.initialX = 0;
+                this.initialY = 0;
+                this.currentX = 0;
+                this.currentY = 0;
+                
+                this.createCards();
+                this.createHearts();
+            }
+
+            createCards() {
+                const memories = [
+                    { text: "First Kiss 💖", image: "https://picsum.photos/seed/1/200/280" },
+                    { text: "Beach Sunset 🌅", image: "https://picsum.photos/seed/2/200/280" },
+                    { text: "Candlelight Date ✨", image: "https://picsum.photos/seed/3/200/280" },
+                    { text: "Movie Night 🎬", image: "https://picsum.photos/seed/4/200/280" },
+                    { text: "Morning Coffee ☕", image: "https://picsum.photos/seed/5/200/280" },
+                    { text: "Dancing Together 💃", image: "https://picsum.photos/seed/6/200/280" },
+                    { text: "Starlit Night 🌟", image: "https://picsum.photos/seed/7/200/280" },
+                    { text: "First Date 💝", image: "https://picsum.photos/seed/8/200/280" },
+                    { text: "Forever Love 💘", image: "https://picsum.photos/seed/9/200/280" }
+                ];
+
+                memories.forEach((memory, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${memory.image}" alt="Memory ${index + 1}">
+                        <div class="text">${memory.text}</div>
+                    `;
+
+                    const angle = (index * 40) * (Math.PI / 180);
+                    const radius = 180;
+                    const centerX = window.innerWidth / 2 - 100;
+                    const centerY = window.innerHeight / 2 - 140;
+                    
+                    card.style.left = `${centerX + radius * Math.cos(angle)}px`;
+                    card.style.top = `${centerY + radius * Math.sin(angle)}px`;
+                    card.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+
+                    this.initDragEvents(card);
+                    document.body.appendChild(card);
+                    this.cards.push(card);
+                });
+            }
+
+            initDragEvents(card) {
+                card.addEventListener('mousedown', (e) => this.startDragging(e, card));
+                card.addEventListener('touchstart', (e) => this.startDragging(e, card));
+                
+                window.addEventListener('mousemove', (e) => this.drag(e));
+                window.addEventListener('touchmove', (e) => this.drag(e));
+                
+                window.addEventListener('mouseup', () => this.stopDragging());
+                window.addEventListener('touchend', () => this.stopDragging());
+            }
+
+            startDragging(e, card) {
+                this.activeCard = card;
+                card.classList.add('dragging');
+
+                const touch = e.type === 'mousedown' ? e : e.touches[0];
+                this.initialX = touch.clientX - card.offsetLeft;
+                this.initialY = touch.clientY - card.offsetTop;
+
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+            }
+
+            drag(e) {
+                if (!this.activeCard) return;
+                e.preventDefault();
+
+                const touch = e.type === 'mousemove' ? e : e.touches[0];
+                this.currentX = touch.clientX - this.initialX;
+                this.currentY = touch.clientY - this.initialY;
+
+                this.currentX = Math.max(0, Math.min(this.currentX, window.innerWidth - 200));
+                this.currentY = Math.max(0, Math.min(this.currentY, window.innerHeight - 280));
+
+                this.activeCard.style.left = `${this.currentX}px`;
+                this.activeCard.style.top = `${this.currentY}px`;
+            }
+
+            stopDragging() {
+                if (!this.activeCard) return;
+                this.activeCard.classList.remove('dragging');
+                this.activeCard = null;
+            }
+
+            createHearts() {
+                const container = document.getElementById('hearts-container');
+                const heartEmojis = ['💖', '💝', '💕', '💗', '💓'];
+                
+                for(let i = 0; i < 25; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    heart.style.left = `${Math.random() * 100}%`;
+                    heart.style.animationDelay = `${Math.random() * 10}s`;
+                    container.appendChild(heart);
+                }
+            }
+        }
+
+        function showMessage() {
+            document.getElementById('messageModal').style.display = 'block';
+        }
+
+        function hideMessage() {
+            document.getElementById('messageModal').style.display = 'none';
+        }
+
+        window.addEventListener('load', () => {
+            new DraggableCards();
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Magical Love Gallery</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500&family=Great+Vibes&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #FF61D2, #FE9090, #FFB8D1);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.8s ease;
+        }
+
+        .glass-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 50px 70px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: float 6s ease-in-out infinite;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .glass-container:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6em;
+            background: linear-gradient(45deg, #FF0080, #FF8C00, #FF69B4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            font-family: 'Quicksand', sans-serif;
+            padding: 18px 45px;
+            font-size: 1.2em;
+            background: linear-gradient(45deg, #FF0080, #FF8C00);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(255, 0, 128, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #FF69B4, #FF1493);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(255, 0, 128, 0.6);
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: floatHeart linear forwards;
+            opacity: 0;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            font-weight: 400;
+            opacity: 0.9;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            animation: subtitlePulse 3s ease-in-out infinite;
+        }
+
+        .love-msg {
+            position: absolute;
+            bottom: 30px;
+            font-size: 1.1em;
+            color: white;
+            opacity: 0.9;
+            font-weight: 400;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            animation: loveMsgFloat 4s ease-in-out infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: sparkle linear forwards;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+                transform: translateY(80vh) translateX(20px) rotate(90deg) scale(1);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(100px) rotate(360deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8); }
+        }
+
+        @keyframes subtitlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes loveMsgFloat {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1) rotate(180deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <h1>Our Love Story</h1>
+        <p class="subtitle">Every moment with you feels like magic... ✨</p>
+        <div class="btn-container">
+            <button class="btn color-btn">Change Theme 🎨</button>
+            <button class="btn">This is for you ❤️</button>
+            <button class="btn music-btn">Play Our Song 🎵</button>
+        </div>
+    </div>
+    <p class="love-msg">Forever yours, with all my heart 💝</p>
+    <audio id="background-music" src="./song.mp3" preload="auto" loop></audio>
+
+    <script>
+        const heartEmojis = ['💗', '💖', '💝', '💕', '♥️', '💘', '💓', '💞'];
+        const gradients = [
+            'linear-gradient(135deg, #FF61D2, #FE9090, #FFB8D1)',
+            'linear-gradient(135deg, #FF1493, #FF69B4, #FFB6C1)',
+            'linear-gradient(135deg, #FF0080, #FF8C00, #FFA500)',
+            'linear-gradient(135deg, #FF69B4, #DA70D6, #FFB6C1)',
+            'linear-gradient(135deg, #FF1493, #FF69B4, #FF8C00)',
+            'linear-gradient(135deg, #FF4500, #FF69B4, #FFB6C1)',
+            'linear-gradient(135deg, #FF00FF, #FF1493, #FF69B4)',
+            'linear-gradient(135deg, #FF0080, #FF69B4, #FFA07A)'
+        ];
+
+        let currentGradient = 0;
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            document.body.appendChild(heart);
+
+            heart.addEventListener('animationend', () => heart.remove());
+        }
+
+        function createSparkle(e) {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = e.clientX + 'px';
+            sparkle.style.top = e.clientY + 'px';
+            sparkle.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+            document.body.appendChild(sparkle);
+
+            sparkle.addEventListener('animationend', () => sparkle.remove());
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() < 0.1) createSparkle(e);
+        });
+
+        setInterval(createHeart, 500);
+
+        document.querySelector('.color-btn').addEventListener('click', () => {
+            currentGradient = (currentGradient + 1) % gradients.length;
+            document.body.style.background = gradients[currentGradient];
+        });
+
+        document.querySelector('.btn:not(.color-btn):not(.music-btn)').addEventListener('click', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = 'Final.html';
+            }, 1000);
+        });
+
+        document.querySelector('.music-btn').addEventListener('click', function() {
+            const music = document.getElementById('background-music');
+            if (music.paused) {
+                music.play();
+                this.textContent = 'Pause Song 🎵';
+            } else {
+                music.pause();
+                this.textContent = 'Play Our Song 🎵';
+            }
+        });
+
+        const container = document.querySelector('.glass-container');
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const rotateX = (y / rect.height - 0.5) * 10;
+            const rotateY = (x / rect.width - 0.5) * 10;
+            
+            container.style.transform = `
+                perspective(1000px)
+                rotateX(${-rotateX}deg)
+                rotateY(${rotateY}deg)
+                translateZ(20px)
+            `;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            container.style.transform = 'none';
+        });
+    </script>
+</body>
+</html>
